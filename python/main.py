@@ -57,8 +57,11 @@ def add_item(name: str = Form(...), category: str = Form(...), image: UploadFile
 
 @app.get("/items")
 def show_item():
-    with open("items.json", "r") as f:
-        data = json.load(f)
+    try:
+        with open("items.json", "r") as f:
+            data = json.load(f)
+    except IOError:
+        logger.info("couldn't open the file")
     return data
 
 @app.get("/items/{item_id}")
