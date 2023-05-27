@@ -3,7 +3,7 @@ FROM python:3.10.11-alpine
 RUN addgroup -S mercari && adduser -S trainee -G mercari
 
 WORKDIR /app
-COPY . .
+COPY ./python/requirements.txt .
 
 WORKDIR /app/python
 RUN pip install --upgrade pip && pip install -r requirements.txt --verbose
