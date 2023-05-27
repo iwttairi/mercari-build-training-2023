@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 
 WORKDIR /app/python
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt --verbose
 
 RUN chown -R trainee:mercari /app/db
 RUN chown -R trainee:mercari /app/python/images
