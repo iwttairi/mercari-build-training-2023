@@ -1,13 +1,16 @@
-FROM alpine
-
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN apk add --no-cache python3 python3-dev py3-pip && pip3 install --upgrade pip && pip3 install -r requirements.txt
-COPY . .
+FROM python:3.10.11-alpine
 
 RUN addgroup -S mercari && adduser -S trainee -G mercari
-# RUN chown -R trainee:mercari /path/to/db
+
+WORKDIR /app
+COPY . .
+
+WORKDIR /app/python
+RUN pip install --upgrade pip && pip install --no-cache -r ./requirements.txt --verbose
+
+RUN chown -R trainee:mercari /app/db
+RUN chown -R trainee:mercari /app/python/images
 
 USER trainee
 
-CMD ["python3", "-V"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "9000"]
